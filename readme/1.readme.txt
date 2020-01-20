@@ -1,0 +1,47 @@
+
+1）在 liteide 设置 gopath 的路径为
+    <project_root>\gopath;<project_root>\futu_cli	--- （ <project_root> 根据情况调整）
+    或 将 <project_root>\gopath 合并到自己的公共gopath
+    e.g. 举例，project_root 为 E:\futu\fork，下面有 futu_cli gopath子目录，则 gopath设置为
+    	E:\futu\fork\futu_cli;E:\futu\fork\gopath
+
+2）编译命令行方式, 可在 win 的gitbash 执行，或linux执行
+    执行 ./mk.sh
+    编译结果在 ./bin/futu_cli.exe
+3）文件说明
+    1socket.go  封装socket
+    1futupack.go 封装打包
+    1func_cli.go 上层服务
+    .\src\pbgo 截止目前 3.17 版本的proto，使用 gogofaster 插件编译
+
+    代码用法 see main.go
+
+4）proto文件编译
+	4.1）如何让go代码包含import
+    例如 proto 文件
+        import "Common.proto";
+        import "Qot_Common.proto";
+    希望 go代码
+		// 前面是下划线还是包名，取决于是否实际引用。出现 以下报错时实际没有引用 ***.proto:7:1: warning: Import Qot_Common.proto is unused.
+        import (
+            Common "pbgo/Common"
+            _ "pbgo/Qot_Common"
+        )
+
+    方法：
+        step 1：修改proto文件，加入
+            option go_package ="pbgo/Qot_Common";
+        step 2：命令行参考写法
+            protoc --proto_path=./pbproto --go_out=paths=source_relative:./pbgo/GetGlobalState ./pbproto/GetGlobalState.proto
+
+	4.2）.bat文件的使用	-- 里面的路径自行修改
+		download_bp.bat  下载指定版本的proto
+		makego_onekey.bat 一键生成 .go 文件
+		makego.bat 配合上面的文件使用
+
+=========================== ref
+参考以下几个工程
+https://github.com/x6doooo/go-futu-api
+https://github.com/htq310542/limgo-for-FutuOpenD
+https://github.com/haoliu1706/limgo-for-FutuOpenD
+

@@ -1,0 +1,54 @@
+
+
+======================= 一键命令 =======================
+download_bp.bat     执行该命令，输入版本号，下载相应的proto
+makego_onekey.bat   执行该命令，输入版本号，一键生成 go 文件；	-- 里面的路径自行修改
+    通过 web 连接 https://github.com/FutunnOpen/py-futu-api ，查看分支版本
+
+======================= 原理，手工下载 =======================
+官网推荐的线上proto文档, （点击左边的switch branches & tags 可以看到分支名称，切换）
+        https://github.com/FutunnOpen/py-futu-api
+
+用web方式下载
+        在web打开 https://github.com/FutunnOpen/py-futu-api
+            在左边的“Branch”选择需要的版本；
+            右边选择 clone or download --- Download ZIP
+            下载后解压到 E:\futu\api\github.com\<ver>\py-futu-api, ver为类似 v3.17
+        生成 go 文件
+            参考下面的5）。
+
+用命令方式下载所有pb文件
+        1）安装gitbash, https://gitforwindows.org/
+        2）进项目根目录获取clone 地址
+            项目地址    https://github.com/FutunnOpen/py-futu-api
+            git地址     https://github.com/FutunnOpen/py-futu-api.git
+
+        3）浏览确定分支名
+            点击左边的switch branches & tags 可以看到分支名称
+            获取指定分支的命令 git clone -b <分支名称> https://github.com/FutunnOpen/py-futu-api.git
+        4）下载 clone
+            cd /d E:\futu\api\github.com
+            mkdir v3.17
+            cd v3.17
+            git clone -b v3.17 https://github.com/FutunnOpen/py-futu-api.git
+                Cloning into 'py-futu-api'...
+                remote: Enumerating objects: 161, done.
+                remote: Counting objects: 100% (161/161), done.
+                remote: Compressing objects: 100% (105/105), done.
+
+                Receiving objects: 100% (3326/3326), 14.17 MiB | 80.00 KiB/s, done.
+                Resolving deltas: 100% (2301/2301), done.
+
+        5）下载完成后（mkdir 在 win 不需要加 -p 参数）
+            mkdir E:\futu\api\v3.17\pbproto
+            copy E:\futu\api\github.com\v3.17\py-futu-api\futu\common\pb\*.proto  E:\futu\api\v3.17\pbproto\
+            copy E:\futu\api\ref\makego.bat E:\futu\api\v3.17\
+            cd /d E:\futu\api\v3.17\
+            makego.bat
+
+        创建 .go 之后
+            拷贝 pbgo 目录到工程位置
+
+    注：
+        header需要自己单独编写和转换，见工程的futu封包文件， 或参考 E:\futu\api\header
+

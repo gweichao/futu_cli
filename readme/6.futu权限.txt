@@ -1,0 +1,59 @@
+
+https://futunnopen.github.io/futu-api-doc/protocol/intro.html
+
+权限
+    https://futunnopen.github.io/futu-api-doc/protocol/intro.html#id33
+        获取K线    3006	Qot_GetKL.proto	获取K线
+                请求协议ID: 3006
+                最多能获取最近 1000 根
+                市盈率，换手率字段只有日K及日K以上周期的正股才有数据。
+                https://futunnopen.github.io/futu-api-doc/protocol/quote_protocol.html#qot-getkl-proto-3006k
+                
+        获取逐笔    3010	Qot_GetTicker.proto	获取逐笔
+                请求协议ID: 3010
+                最多能获取最近 1000 根
+                https://futunnopen.github.io/futu-api-doc/protocol/quote_protocol.html#qot-getticker-proto-3010
+                
+        在线获取单只股票一段历史K线  3103	Qot_RequestHistoryKL.proto	在线获取单只股票一段历史K线
+                请求协议ID: 3103
+                30天内在线获取历史K线最多可请求股票数与用户等级相关，一级: 1000 , 二级: 300 , 三级: 100
+                30 秒内请求最多 10 次，可分页的请求，第1页限频，后续页请求不限频
+                分K提供最近2年数据，日K及以上提供近10年数据。
+                https://futunnopen.github.io/futu-api-doc/protocol/quote_protocol.html#qot-requesthistorykl-proto-3103k
+                
+        在线获取单只股票复权信息    3105	Qot_RequestRehab.proto	在线获取单只股票复权信息
+                请求协议ID: 3105
+                30 秒内请求最多 10 次
+                https://futunnopen.github.io/futu-api-doc/protocol/quote_protocol.html#qot-requestrehab-proto-3105
+                
+        获取股票快照      3203	Qot_GetSecuritySnapshot.proto	获取股票快照
+                请求协议ID: 3203
+                每次最多可请求股票数与用户等级相关, 一级: 400 , 二级: 300 , 三级: 200
+                30秒内快照最多请求次数与用户等级相关，一级: 30 , 二级: 20 , 三级: 10
+                https://futunnopen.github.io/futu-api-doc/protocol/quote_protocol.html#qot-getsecuritysnapshot-proto-3203
+                
+        获取板块集合下的板块  3204	Qot_GetPlateSet.proto	获取板块集合下的板块
+                请求协议ID: 3204
+                30 秒内请求最多 10 次
+                https://futunnopen.github.io/futu-api-doc/protocol/quote_protocol.html#qot-getplateset-proto-3204
+                
+        获取板块下的股票    3205	Qot_GetPlateSecurity.proto	获取板块下的股票
+                请求协议ID: 3205
+                30 秒内请求最多 10 次
+                https://futunnopen.github.io/futu-api-doc/protocol/quote_protocol.html#qot-getplatesecurity-proto-3205
+                
+        获取股票所属板块    3207	Qot_GetOwnerPlate.proto	获取股票所属板块
+                请求协议ID: 3207
+                30 秒内请求最多 10 次
+                传入股票最多 200 个
+                仅支持正股和指数
+                https://futunnopen.github.io/futu-api-doc/protocol/quote_protocol.html#qot-getownerplate-proto-3207
+                
+        获取条件选股       3215	Qot_StockFilter.proto	获取条件选股
+                请求协议ID: 3215
+                30 秒内请求最多 10 次
+                每次请求的数据个数最多 200 个
+                https://futunnopen.github.io/futu-api-doc/protocol/quote_protocol.html#qot-stockfilter-proto-3215
+清单
+    https://futunnopen.github.io/futu-api-doc/protocol/intro.html#id32
+

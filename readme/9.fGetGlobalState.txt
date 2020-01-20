@@ -1,0 +1,6 @@
+
+ [01-11 20:53:46]|D|futu_cli|main.go|fGetGlobalState()|62| Send n=51, err=<nil> @ 20:53:46.688733
+ [01-11 20:53:46]|D|futu_cli|main.go|fGetGlobalState()|70| 1002==> @ 20:53:46.688733
+ [01-11 20:53:46]|D|futu_cli|main.go|fGetGlobalState()|79| @ 20:53:46.688733, resp=retType:0 retMsg:"" errCode:0 
+s2c:
+<marketHK:6 marketUS:11 marketSH:6 marketSZ:6 marketHKFuture:14 qotLogined:true trdLogined:true serverVer:208 serverBuildNo:700 time:1578747226 localTime:1.578747226688733e+09 programStatus:<type:ProgramStatusType_Ready strExtDesc:"" > qotSvrIpAddr:"115.159.18.59" trdSvrIpAddr:"115.159.18.59" >

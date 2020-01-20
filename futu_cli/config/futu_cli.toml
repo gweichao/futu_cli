@@ -1,0 +1,27 @@
+
+# ip:port. 默认 127.0.0.1:11111；只提供 port/:port 补齐 127.0.0.1:port；
+ConnAddr="11111"
+KeepAlive=5
+LogLevel = "DEBUG"
+
+[PrintLog]
+	KeepAliveDetail=false
+
+#以下仅是例子	
+[[MailsettingList]]
+	#smtp服务器地址
+	  SendSvrAddr = "smtp.qq.com"
+	#smtp服务器端口
+	  SendSvrPort = "994"
+	#类型，normal 非加密，tls 加密
+	  NetType = "normal"
+	#发送者的邮箱
+	  SenderMail = "李四<lisi@qq.com>"
+	#发送者的密码
+	  SenderPassword = "***"
+#[[MailsettingList]] 第二个发送服务器和账号的写法
+#	  SendSvrAddr = "smtp.163.com"
+#	  SendSvrPort = "25"
+#	  NetType = "tls"
+#	  SenderMail = "李四<lisi@163.com>"
+#	  SenderPassword = "***"

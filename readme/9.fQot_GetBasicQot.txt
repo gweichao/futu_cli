@@ -1,0 +1,39 @@
+ 
+ [01-11 20:53:46]|D|futu_cli|1func_cli.go|fQot_GetBasicQot()|57| Send n=68, err=<nil> @ 20:53:46.733720
+ [01-11 20:53:46]|D|futu_cli|1func_cli.go|fQot_GetBasicQot()|65| 3004==> @ 20:53:46.733720
+ [01-11 20:53:46]|D|futu_cli|1func_cli.go|fQot_GetBasicQot()|74| @ 20:53:46.733720, resp=retType:0 retMsg:"" errCode:0 s2c:<
+ basicQotList:<security:<market:1 code:"01846" > isSuspended:false listTime:"2019-10-15" priceSpread:0.01 updateTime:"2020-01-10 16:08:08" highPrice:8.4 openPrice:8.2 lowPrice:8.1 curPrice:8.36 lastClosePrice:8.13 volume:518000 turnover:4.2767e+06 turnoverRate:0.157 amplitude:3.69 darkStatus:0 listTimestamp:1.5710688e+09 updateTimestamp:1.578643688e+09 secStatus:1 >
+
+ basicQotList:<security:<market:1 code:"01830" > isSuspended:false listTime:"2012-02-10" priceSpread:0.01 updateTime:"2020-01-10 16:08:08" highPrice:3.06 openPrice:3.04 lowPrice:3.02 curPrice:3.04 lastClosePrice:3.04 volume:500000 turnover:1.51836e+06 turnoverRate:0.045 amplitude:1.316 darkStatus:0 listTimestamp:1.3288032e+09 updateTimestamp:1.578643688e+09 secStatus:1 > >
+
+
+	IsSuspended     bool    
+	ListTime        string  
+	PriceSpread     float64 
+	UpdateTime      string  
+	HighPrice       float64 
+	OpenPrice       float64 
+	LowPrice        float64 
+	CurPrice        float64 
+	LastClosePrice  float64 
+	Volume          int64   
+	Turnover        float64 
+	TurnoverRate    float64 
+	Amplitude       float64 
+
+priceSpread = 4; //价差
+amplitude = 14; //振幅（该字段为百分比字段，默认不展示%，如20实际对应20%，如20实际对应20%）
+
+time = 1; //时间戳字符串
+isBlank = 2; //是否是空内容的点,若为ture则只有时间信息
+highPrice = 3; //最高价
+openPrice = 4; //开盘价
+lowPrice = 5; //最低价
+closePrice = 6; //收盘价
+lastClosePrice = 7; //昨收价
+volume = 8; //成交量
+turnover = 9; //成交额
+turnoverRate = 10; //换手率（该字段为百分比字段，展示为小数表示）
+pe = 11; //市盈率
+changeRate = 12; //涨跌幅（该字段为百分比字段，默认不展示%，如20实际对应20%，如20实际对应20%）
+timestamp = 13; //时间戳

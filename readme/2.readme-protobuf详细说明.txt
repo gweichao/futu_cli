@@ -1,0 +1,106 @@
+
+protobuf由两部分构成，
+
+1）编译工具。这套工具是离线工具，把 .proto 文件编译成各种语言的源代码。
+    有两个部分，一个是基础的编译程序 protoc.exe；另一个是编译成各种语言的插件，golang对应 protoc-gen-go.exe 等
+    
+    1.1）编译器 protoc.exe
+        下载地址 https://github.com/google/protobuf/releases，可下载 protoc-*-win64.zip
+        解压exe文件放到 %GOPATH%\bin
+
+    1.2）golang编译插件
+        protoc-gen-go.exe  -- 官网
+        protoc-gen-gofast.exe   --- 第三方
+        protoc-gen-gogofaster.exe   --- options to not generate xxx fields
+        protoc-gen-gogoslick.exe    --- options to not generate xxx fields
+
+    官方插件，方法1
+        go get -u github.com/golang/protobuf/protoc-gen-go
+        上面时间比较长，耐心等待。安装成功后
+            a）在 %GOPATH%\bin 有 protoc-gen-go.exe
+            b）在 gopath\src\github.com\golang\protobuf 有源代码包（运行时库）
+                
+?未验证  报错 ... is not using a known version control system , 没有加入到git版本控制系统
+            step1 连接 https://github.com/golang/protobuf ， 取得 git 地址 https://github.com/golang/protobuf.git
+            step2 git clone https://github.com/golang/protobuf.git
+            step3 再使用 go get -u github.com/golang/protobuf/protoc-gen-go
+
+    官方插件，方法2
+        如果取不到，可以到这里下载 https://github.com/golang/protobuf
+        解压拷贝到 gopath\src\github.com\golang\protobuf
+        手工安装 go install github.com\golang\protobuf\protoc-gen-go
+        在 bin 文件夹里面生成 protoc-gen-go.exe ，把它放到 %GOPATH%\bin 一起
+        // proto.a jsonpb.a
+        go install github.com\golang\protobuf\proto
+        go install github.com\golang\protobuf\jsonpb
+        
+    第三方插件，代码质量更好、性能更高
+        下载 https://github.com/gogo/protobuf , 解压到 gopath\src\github.com\gogo\protobuf
+
+        手工安装，参考 gopath\src\github.com\gogo\protobuf 的目录名称：
+        
+        go install github.com\gogo\protobuf\protoc-gen-gofast --- 在 %GOPATH%\bin 有 protoc-gen-gofast.exe
+        go install github.com\gogo\protobuf\protoc-gen-gogo
+        go install github.com\gogo\protobuf\protoc-gen-gogofast     --- 见下面的3）使用方法
+        go install github.com\gogo\protobuf\protoc-gen-gogofaster   --- 
+        go install github.com\gogo\protobuf\protoc-gen-gogoslick    --- 
+            --- 在 %GOPATH%\bin 有 protoc-gen-gogofaster.exe 等
+            --- Fields without pointers cause less time in the garbage collector. More code generation results in more convenient methods.
+
+            --- ？生成 .a 文件？
+        go install github.com/gogo/protobuf/proto
+        go install github.com/gogo/protobuf/{binary}  --- {binary} 为上面的 protoc-gen-gogo 等
+        go install github.com/gogo/protobuf/gogoproto
+        
+        protoc-gen-gogo：和protoc-gen-go生成的文件差不多，性能也几乎一样(稍微快一点点)
+        protoc-gen-gofast：生成的文件更复杂，性能也更高(快5-7倍)
+
+2）运行时库
+    这部分对于golang而言是源代码包，gopath\src\github.com\golang\protobuf
+    参考上面的“官方插件”
+
+3）使用方法
+    protoc --proto_path=你proto文件的目录 --go_out=生成go文件的目录 你的proto文件.proto
+    其中 “--go_out=” 通用格式是 “--{binary}_out”， protoc-gen-{binary}.exe 构成插件的程序名，可用：
+        --go_out=           // protoc-gen-go.exe 官网
+        --gofast_out=       // protoc-gen-gofast.exe  生产性能较快的源代码
+        --gogo_out=         // protoc-gen-gogo.exe
+        --gogofast_out=     // protoc-gen-gogofast.exe   same as gofast, but imports gogoprotobuf
+        --gogofaster_out=   // protoc-gen-gogofaster.exe    same as gogofast, without XXX_unrecognized, less pointer fields
+        --gogoslick_out=    // protoc-gen-gogoslick.exe     same as gogofaster, but with generated string, gostring and equal methods
+        *** see e:\gopath\src\github.com\gogo\protobuf\Readme.md
+
+    举例1，hello.proto
+        protoc --go_out=. hello.proto   // 使用 protoc-gen-go.exe 编译源代码
+        protoc --gofast_out=. hello.proto   // 使用 protoc-gen-gofast.exe 编译源代码
+        protoc --gogofaster_out=. hello.proto   // 使用 protoc-gen-gogofaster.exe 编译源代码
+
+    举例2, 相对导入路径，Relative to the import path，详见《protoc.docx》:
+          protoc --go_out=. inputs/*.proto
+          # writes ./github.com/golang/protobuf/p/x.pb.go , 假设 go_package=github.com/golang/protobuf/p
+          ( 也可类似写为 This can work well with `--go_out=$GOPATH`. )
+    举例3, 相对输入路径，Relative to the input file，详见《protoc.docx》:
+        protoc --go_out=paths=source_relative:. inputs/*.proto
+        # generate ./inputs/x.pb.go
+
+4) 如何让go代码包含import
+    例如 proto 文件
+        import "Common.proto";
+        import "Qot_Common.proto";
+    希望 go代码
+        import (
+            Common "pbgo/Common"
+            _ "pbgo/Qot_Common"  // 根据是否实际引用 ***.proto:7:1: warning: Import Qot_Common.proto is unused.
+        )
+
+    方法：
+        step 1：proto修改，加入
+            option go_package ="pbgo/Qot_Common";
+        step 2：命令行参考写法
+            protoc --proto_path=./pbproto --go_out=paths=source_relative:./pbgo/GetGlobalState ./pbproto/GetGlobalState.proto
+    做好的bat文件 参考 src/makego.bat
+--ref
+    https://github.com/gogo/protobuf 说明
+    https://www.jianshu.com/p/c1a29a099ab2
+    https://www.jianshu.com/p/7e3dcfbc5fd7
+

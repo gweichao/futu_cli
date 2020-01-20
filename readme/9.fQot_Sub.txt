@@ -1,0 +1,6 @@
+
+ [01-11 20:53:46]|D|futu_cli|1func_cli.go|fQot_Sub()|142| Send n=80, err=<nil> @ 20:53:46.690719
+ [01-11 20:53:46]|D|futu_cli|1func_cli.go|fQot_Sub()|150| 3001==> @ 20:53:46.690719
+ [01-11 20:53:46]|D|futu_cli|1func_cli.go|fQot_Sub()|159| @ 20:53:46.690719, resp=retType:0 retMsg:"" errCode:0
+
+

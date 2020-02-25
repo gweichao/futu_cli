@@ -16,10 +16,10 @@ rem        mkdir "%input_ver%"
 rem        cd %input_ver%
 rem        git clone -b %input_ver% https://github.com/FutunnOpen/py-futu-api.git
 
-        echo.拷贝版本文件，生成go文件
-        mkdir "%MAINPATH%\%input_ver%\pbproto"
-        copy %MAINPATH%\github.com\%input_ver%\py-futu-api\futu\common\pb\*.proto  %MAINPATH%\%input_ver%\pbproto\
-        copy %MAINPATH%\ref\makego.bat %MAINPATH%\%input_ver%\
+        echo. 生成go文件
+rem        mkdir "%MAINPATH%\%input_ver%\pbproto"
+        remcopy %MAINPATH%\github.com\%input_ver%\py-futu-api\futu\common\pb\*.proto  %MAINPATH%\%input_ver%\pbproto\
+rem        copy %MAINPATH%\ref\makego.bat %MAINPATH%\%input_ver%\
         cd /d %MAINPATH%\%input_ver%\
         call makego.bat
         echo.文件参见 %MAINPATH%\%input_ver%\，将其拷贝到目标工程进一步使用

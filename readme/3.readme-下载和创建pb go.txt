@@ -2,7 +2,10 @@
 
 ======================= 一键命令 =======================
 download_bp.bat     执行该命令，输入版本号，下载相应的proto
-makego_onekey.bat   执行该命令，输入版本号，一键生成 go 文件；	-- 里面的路径自行修改
+
+    ### 通过宏的方式逐一在每个文件加上类似 option go_package ="pbgo/*";语句
+    
+makego_onekey.bat   执行该命令，输入版本号，一键生成 go 文件
     通过 web 连接 https://github.com/FutunnOpen/py-futu-api ，查看分支版本
 
 ======================= 原理，手工下载 =======================
@@ -20,7 +23,7 @@ makego_onekey.bat   执行该命令，输入版本号，一键生成 go 文件�
 用命令方式下载所有pb文件
         1）安装gitbash, https://gitforwindows.org/
         2）进项目根目录获取clone 地址
-            项目地址    https://github.com/FutunnOpen/py-futu-api
+            项目地址    https://github.com/FutunnOpen/py-futu-api 
             git地址     https://github.com/FutunnOpen/py-futu-api.git
 
         3）浏览确定分支名
@@ -47,8 +50,21 @@ makego_onekey.bat   执行该命令，输入版本号，一键生成 go 文件�
             makego.bat
 
         创建 .go 之后
-            拷贝 pbgo 目录到工程位置
-
+            拷贝 pb目录到工程位置
+    
     注：
-        header需要自己单独编写和转换，见工程的futu封包文件， 或参考 E:\futu\api\header
+        header需要自己单独编写和转换，见 E:\futu\api\header
+    
+从 qq 群下载的文档
+        file:///E:/futu/docs/%E5%AF%8C%E9%80%94API%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3/protocol/base_define.html
 
+E:\futu\projects\futu_cli\src\futu_cli
+---- ref 
+    pb1,py
+        C:\Users\Administrator\AppData\Roaming\Futu\FutuOpenD\python-script\futu\common\pb
+    pb2,py
+        C:\Users\Administrator\AppData\Roaming\Futu\FutuOpenD\python\windows\Lib\site-packages\futu\common\pb
+    pb3,c,api
+        C-For-FutuOpenD-master， github.com 下载
+    pb4_py_api
+        E:\futu\api\py-futu-api-master\futu\common\pb, py-futu-api-master.zip

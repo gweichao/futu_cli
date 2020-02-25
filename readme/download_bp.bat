@@ -17,10 +17,12 @@ if "%input_ver%"=="" echo.你输入空的版本号！ &goto :start
         git clone -b %input_ver% https://github.com/FutunnOpen/py-futu-api.git
         echo.文件参见 %MAINPATH%\github.com\%input_ver%
 
-rem       echo.拷贝版本文件，生成go文件
-rem       mkdir "%MAINPATH%\%input_ver%\pb.proto"
-rem       copy %MAINPATH%\github.com\%input_ver%\py-futu-api\futu\common\pb\*.proto  %MAINPATH%\%input_ver%\pb.proto\
-rem       copy %MAINPATH%\ref\makego.bat %MAINPATH%\%input_ver%\
+       cd /d "%MAINPATH%\
+       echo.拷贝版本文件
+       mkdir "%MAINPATH%\%input_ver%\pb.proto"
+       copy %MAINPATH%\github.com\%input_ver%\py-futu-api\futu\common\pb\*.proto  %MAINPATH%\%input_ver%\pb.proto\
+       copy %MAINPATH%\ref\makego.bat %MAINPATH%\%input_ver%\
+
 rem       cd /d %MAINPATH%\%input_ver%\
 rem       call makego.bat
 rem       echo.文件参见 %MAINPATH%\%input_ver%\

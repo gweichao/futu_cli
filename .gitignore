@@ -1,0 +1,5 @@
+bin/
+*.pid
+*.log
+*.exe
+

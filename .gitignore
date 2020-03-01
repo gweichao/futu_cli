@@ -1,4 +1,5 @@
 bin/
+runtime/
 *.pid
 *.log
 *.exe

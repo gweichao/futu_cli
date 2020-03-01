@@ -300,8 +300,12 @@ func (this *RequestStu) Send(pack *FutuPackStu, SyncIn ...bool) (packResp *FutuP
 	return
 }
 
+var readnum int = 5
+
 // Recv data
 func (this *RequestStu) recvRaw() (pack *FutuPackStu, err error) {
+
+	const headerLen = 44
 
 	if this.Conn == nil {
 		err = errors.New("not init")
@@ -317,11 +321,12 @@ func (this *RequestStu) recvRaw() (pack *FutuPackStu, err error) {
 	scanner.Buffer([]byte{}, bufio.MaxScanTokenSize*512)
 	scanner.Split(func(data []byte, atEOF bool) (advance int, token []byte, err2 error) {
 		if !atEOF && data[0] == 'F' {
-			if len(data) > 44 {
+			if len(data) > headerLen {
 				length := uint32(0)
 				binary.Read(bytes.NewReader(data[12:16]), binary.LittleEndian, &length)
-				if int(length)+4 < len(data) {
-					return int(length) + 44, data[:int(length)+44], nil
+				needTotalLen := int(length) + headerLen
+				if needTotalLen <= len(data) {
+					return needTotalLen, data[:needTotalLen], nil
 				}
 			}
 		}
@@ -336,6 +341,37 @@ func (this *RequestStu) recvRaw() (pack *FutuPackStu, err error) {
 	if scanner.Scan() {
 		pack = new(FutuPackStu)
 		err = pack.PackRead(scanner.Bytes())
+
+		// debug
+		if readnum < 1 {
+			readnum++
+			PrnLog.Debugf(`pack.HeaderFlag=%x,
+pack.ProtoID=%v,
+pack.ProtoFmtType=%v,
+pack.ProtoVer=%v,
+pack.SerialNo=%v,
+pack.BodyLen=%v,
+pack.BodySHA1=%x,
+pack.Reserved=%x
+`, pack.HeaderFlag, pack.ProtoID, pack.ProtoFmtType, pack.ProtoVer,
+				pack.SerialNo, pack.BodyLen, pack.BodySHA1, pack.Reserved)
+			PrnLog.Debugf("bytes=%x", scanner.Bytes())
+			/* e.g.
+			pack.HeaderFlag=4654,
+			pack.ProtoID=1001,
+			pack.ProtoFmtType=0,
+			pack.ProtoVer=0,
+			pack.SerialNo=1,
+			pack.BodyLen=64,
+			pack.BodySHA1=470db3e6072a99365807d92d641bcdbc41c5a030,
+			pack.Reserved=0000000000000000
+			--
+			bytes=4654 e9030000 00 00 01000000 40000000 470db3e6072a99365807d92d641bcdbc41c5a030 0000000000000000
+			080012001800223808d20110bfdedb0518a69ddfecd1dfe9925c221032393745454244344641384642433736280a321032304530384242434638444433303342
+			后一行64字节
+			*/
+		}
+
 		if err != nil {
 			err = fmt.Errorf("unpack error, %v", err)
 			return
@@ -608,15 +644,13 @@ func (this *ConnManageStu) routineConnAlive(enterFlagIn int, printDetail bool, s
 				if rttnano > rttMax {
 					rttMax = rttnano
 				}
-				if !SysConfig.PrintLog.KeepAliveDetail {
-					if CheckTs.Check("KeepAlive.Request", 600) {
+				if SysConfig.PrintLog.KeepAliveDetail || CheckTs.Check("KeepAlive.Request", 7200) {
 						PrnLog.Debugf("[%v]send KeepAlive %v, rtt cur=%v,min=%v,max=%v @ %v",
 							enterFlag1, hbCnt,
 							libf.NanoToTimeStr(rttnano, 6), libf.NanoToTimeStr(rttMin, 6), libf.NanoToTimeStr(rttMax, 6),
 							time.Now().Format(TIMEFORMAT_HHMMssMS),
 						)
 					}
-				}
 
 				if err != nil {
 					PrnLog.Errorf("[%v]sendkeepAlive err=%v @ %v",

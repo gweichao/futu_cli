@@ -1,7 +1,17 @@
 
-## Example
+## docs & tools
+```
 detail see ./readme/*
 
+./readme/3.readme-下载和创建pb go.txt
+    详细描述proto下载制作go的方法
+./readme/makego.sh, ./gopath/bin
+    配套的工具
+./gopath/src/github.com/gogo
+    配套的go包
+```
+
+## Example
 ```
 package main
 

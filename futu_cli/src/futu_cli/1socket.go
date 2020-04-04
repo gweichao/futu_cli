@@ -12,8 +12,9 @@ import (
 	"time"
 
 	libf "libfunc"
-	"pbgo/InitConnect"
-	"pbgo/KeepAlive"
+
+	InitConnect "github.com/futuopen/ftapi4go/pb/initconnect"
+	KeepAlive "github.com/futuopen/ftapi4go/pb/keepalive"
 
 	"github.com/gogo/protobuf/proto"
 	// "github.com/golang/protobuf/proto"
@@ -645,12 +646,12 @@ func (this *ConnManageStu) routineConnAlive(enterFlagIn int, printDetail bool, s
 					rttMax = rttnano
 				}
 				if SysConfig.PrintLog.KeepAliveDetail || CheckTs.Check("KeepAlive.Request", 7200) {
-						PrnLog.Debugf("[%v]send KeepAlive %v, rtt cur=%v,min=%v,max=%v @ %v",
-							enterFlag1, hbCnt,
-							libf.NanoToTimeStr(rttnano, 6), libf.NanoToTimeStr(rttMin, 6), libf.NanoToTimeStr(rttMax, 6),
-							time.Now().Format(TIMEFORMAT_HHMMssMS),
-						)
-					}
+					PrnLog.Debugf("[%v]send KeepAlive %v, rtt cur=%v,min=%v,max=%v @ %v",
+						enterFlag1, hbCnt,
+						libf.NanoToTimeStr(rttnano, 6), libf.NanoToTimeStr(rttMin, 6), libf.NanoToTimeStr(rttMax, 6),
+						time.Now().Format(TIMEFORMAT_HHMMssMS),
+					)
+				}
 
 				if err != nil {
 					PrnLog.Errorf("[%v]sendkeepAlive err=%v @ %v",

@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"time"
 
-	"pbgo/GetGlobalState"
-	"pbgo/Qot_Common"
-	"pbgo/Qot_GetBasicQot"
-	"pbgo/Qot_GetSecuritySnapshot"
-	"pbgo/Qot_Sub"
+	GetGlobalState "github.com/futuopen/ftapi4go/pb/getglobalstate"
+	Qot_Common "github.com/futuopen/ftapi4go/pb/qotcommon"
+	Qot_GetBasicQot "github.com/futuopen/ftapi4go/pb/qotgetbasicqot"
+	Qot_GetSecuritySnapshot "github.com/futuopen/ftapi4go/pb/qotgetsecuritysnapshot"
+	Qot_Sub "github.com/futuopen/ftapi4go/pb/qotsub"
 
 	libf "libfunc"
 
@@ -260,10 +260,10 @@ func fQot_GetSecuritySnapshot_debug(Request *RequestStu) {
 			Market: int32(1),
 			Code:   "07230",
 		})
-		securityList = append(securityList, &Qot_Common.Security{
-			Market: int32(1),
-			Code:   "09146",
-		})
+		// securityList = append(securityList, &Qot_Common.Security{
+		// 	Market: int32(1),
+		// 	Code:   "09146",
+		// })
 	}
 	for {
 		_, err := fQot_GetSecuritySnapshot(Request,
